@@ -1,7 +1,7 @@
 #PiCamera Testbed
 
 from time import sleep
-import picamera
+from picamera import PiCamera
 import os.path
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
