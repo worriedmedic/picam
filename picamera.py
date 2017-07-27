@@ -3,8 +3,6 @@
 from time import sleep
 import picamera
 import os.path
-import os
-import imageio
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 import logging
@@ -14,12 +12,12 @@ def capture():
 	with picamera.PiCamera() as camera:
 		now = datetime.datetime.now()
 		output_dir = '/home/pi/picamera/images/' + now.strftime("%Y-%m") + '/'
-		output_file = 'image' + now.strftime("%H-%M-%S") + '.png'
+		output_file = 'image' + now.strftime("%H-%M-%S") + '.jpg'
 		camera.iso = 1600
-		camera.resolution = (1280, 720)
 		camera.vflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
-		camera.capture(os.path.join(output_dir, output_file))
+		camera.capture(output_dir + output_file, resize=(853, 480))
+		camera.capture('/home/pi/picamera/images/output.jpg')
 
 if (1):
 	scheduler = BlockingScheduler()
