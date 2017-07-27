@@ -22,4 +22,5 @@ def capture():
 if (1):
 	scheduler = BlockingScheduler()
 	scheduler.add_job(capture, 'interval', seconds=30)
+	capture()
 	scheduler.start()
