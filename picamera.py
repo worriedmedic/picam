@@ -9,7 +9,7 @@ import logging
 logging.basicConfig()
 
 def capture():
-	with picamera as camera:
+	with PiCamera() as camera:
 		now = datetime.datetime.now()
 		output_dir = '/home/pi/picamera/images/' + now.strftime("%Y-%m") + '/'
 		output_file = 'image' + now.strftime("%H-%M-%S") + '.jpg'
