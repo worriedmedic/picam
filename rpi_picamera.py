@@ -11,13 +11,13 @@ logging.basicConfig()
 def capture():
 	with picamera as camera:
 		now = datetime.datetime.now()
-		output_dir = '/home/pi/picamera/images/' + now.strftime("%Y-%m") + '/'
+		output_dir = '/home/pi/picam/images/' + now.strftime("%Y-%m") + '/'
 		output_file = 'image' + now.strftime("%H-%M-%S") + '.jpg'
 		camera.iso = 1600
 		camera.vflip = True
 		camear.hflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
-		camera.capture('/home/pi/picamera/images/output.jpg')
+		camera.capture('/home/pi/picam/images/output.jpg')
 		camera.resolution = (853, 480)
 		camera.capture(output_dir + output_file)
 
