@@ -2,13 +2,14 @@
 
 from time import sleep
 import picamera
-from PIL import Image
 import os.path
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 import logging
 logging.basicConfig()
 import sys
+import pygame
+from pygame.locals import *
 
 verbose = False
 
@@ -24,8 +25,14 @@ def directorycheck():
 	if not os.path.exists('./images/' + now.strftime("%Y-%m")):
 		os.makedirs('./images/' + now.strftime("%Y-%m"))
 
+def image_display(n):
+	img=pygame.image.load(n) 
+	screen.blit(img,(0,0))
+	pygame.display.flip()
+
 def capture():
 	with picamera.PiCamera() as camera:
+		global output
 		now = datetime.datetime.now()
 		directorycheck()
 		output = './images/' + now.strftime("%Y-%m") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
@@ -38,10 +45,14 @@ def capture():
 		camera.capture(output)
 		if verbose:
 			print("Image Captured: ", output)
-		im = Image.open(output)
-		im.show()
+		image_display(output)
 
 if (1):
+	pygame.init()
+	w = 480
+	h = 320
+	size=(w,h)
+	screen = pygame.display.set_mode(size)
 	scheduler = BlockingScheduler()
 	scheduler.add_job(capture, 'interval', minutes=5)
 	capture()
