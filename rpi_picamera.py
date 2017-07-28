@@ -17,8 +17,9 @@ def capture():
 		camera.vflip = True
 		camear.hflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
-		camera.capture(output_dir + output_file, resize=(853, 480))
 		camera.capture('/home/pi/picamera/images/output.jpg')
+		camera.resolution = (853, 480)
+		camera.capture(output_dir + output_file)
 
 if (1):
 	scheduler = BlockingScheduler()
