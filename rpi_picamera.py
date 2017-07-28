@@ -2,24 +2,34 @@
 
 from time import sleep
 import picamera
+from PIL import Image
 import os.path
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 import logging
 logging.basicConfig()
 
+def directorycheck():
+	now = datetime.datetime.now()
+	if not os.path.exists('./images/'):
+		os.makedirs('./images/')
+	if not os.path.exists('./images/' + now.strftime("%Y-%m")):
+		os.makedirs('./images/' + now.strftime("%Y-%m"))
+
 def capture():
 	with picamera.PiCamera() as camera:
 		now = datetime.datetime.now()
-		output_dir = '/home/pi/images/' + now.strftime("%Y-%m") + '/'
-		output_file = 'image' + now.strftime("%H-%M-%S") + '.jpg'
+		directorycheck()
+		output = './images/' + now.strftime("%Y-%m") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
 		camera.iso = 1600
 		camera.vflip = True
 		camera.hflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
-		camera.capture('/home/pi/images/output.jpg')
+		camera.capture('./images/output.jpg')
 		camera.resolution = (853, 480)
-		camera.capture(output_dir + output_file)
+		camera.capture(output)
+		im = Image.open(output)
+		im.show()
 
 if (1):
 	scheduler = BlockingScheduler()
