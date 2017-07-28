@@ -49,10 +49,7 @@ def capture():
 
 if (1):
 	pygame.init()
-	w = 480
-	h = 320
-	size=(w,h)
-	screen = pygame.display.set_mode(size)
+	screen = pygame.display.set_mode((480,320),pygame.FULLSCREEN)
 	scheduler = BlockingScheduler()
 	scheduler.add_job(capture, 'interval', minutes=5)
 	capture()
