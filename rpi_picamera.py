@@ -41,7 +41,7 @@ def capture():
 		camera.hflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
 		camera.capture('./images/output.jpg')
-		camera.resolution = (853, 480)
+		camera.resolution = (480, 320)
 		camera.capture(output)
 		if verbose:
 			print("Image Captured: ", output)
