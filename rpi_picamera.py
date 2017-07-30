@@ -10,6 +10,7 @@ logging.basicConfig()
 import sys
 import pygame
 from pygame.locals import *
+import subprocess
 
 verbose = False
 
@@ -32,6 +33,12 @@ def image_display(n):
 	screen.blit(img,(0,0))
 	pygame.display.flip()
 
+def dropbox_update(output):
+	try:
+		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "-q", "upload", "%s" %output, "/Programming/images/"])
+	except Exception:
+		pass
+
 def capture():
 	with picamera.PiCamera() as camera:
 		global output
@@ -48,6 +55,7 @@ def capture():
 		if verbose:
 			print("Image Captured: ", output)
 		image_display(output)
+		dropbox_update(output)
 
 if (1):
 	pygame.init()
