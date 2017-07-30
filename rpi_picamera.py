@@ -24,6 +24,8 @@ def directorycheck():
 		os.makedirs('./images/')
 	if not os.path.exists('./images/' + now.strftime("%Y-%m")):
 		os.makedirs('./images/' + now.strftime("%Y-%m"))
+	if not os.path.exists('./images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d")):
+		os.makedirs('./images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d"))
 
 def image_display(n):
 	img=pygame.image.load(n) 
