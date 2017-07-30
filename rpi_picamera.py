@@ -33,9 +33,9 @@ def image_display(n):
 	screen.blit(img,(0,0))
 	pygame.display.flip()
 
-def dropbox_update(output):
+def dropbox_update(output, output_dir):
 	try:
-		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "-q", "upload", "%s" %output, "/Programming/images/"])
+		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "-q", "upload", "%s" %output, "/Programming/images/%s" %output_dir])
 	except Exception:
 		pass
 
@@ -44,7 +44,8 @@ def capture():
 		global output
 		now = datetime.datetime.now()
 		directorycheck()
-		output = './images/' + now.strftime("%Y-%m") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
+		output = './images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
+		output_dir = now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/'
 		camera.iso = 1600
 		camera.vflip = True
 		camera.hflip = True
@@ -55,7 +56,7 @@ def capture():
 		if verbose:
 			print("Image Captured: ", output)
 		image_display(output)
-		dropbox_update(output)
+		dropbox_update(output, output_dir)
 
 if (1):
 	pygame.init()
