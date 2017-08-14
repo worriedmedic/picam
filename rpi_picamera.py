@@ -13,6 +13,7 @@ from pygame.locals import *
 import subprocess
 
 verbose = False
+display_image = False
 
 for arg in sys.argv:
 	if arg == '-v':
@@ -48,19 +49,21 @@ def capture():
 		output_dir = now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/'
 		camera.iso = 1600
 		#camera.vflip = True
-		camera.hflip = True
+		#camera.hflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
 		camera.capture('./images/output.jpg')
 		camera.resolution = (480, 320)
 		camera.capture(output)
 		if verbose:
 			print("Image Captured: ", output)
-		image_display(output)
+		if display_image:
+			image_display(output)
 		dropbox_update(output, output_dir)
 
 if (1):
-	pygame.init()
-	screen = pygame.display.set_mode((480,320),pygame.FULLSCREEN)
+	if display_image:
+		pygame.init()
+		screen = pygame.display.set_mode((480,320),pygame.FULLSCREEN)
 	scheduler = BlockingScheduler()
 	scheduler.add_job(capture, 'interval', minutes=15)
 	capture()
