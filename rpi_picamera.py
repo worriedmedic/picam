@@ -1,4 +1,6 @@
 #PiCamera Testbed
+#crontab -e example:
+#export DISPLAY=:0 && <<COMMAND>>
 
 from time import sleep
 import picamera
