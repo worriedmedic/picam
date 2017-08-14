@@ -47,7 +47,7 @@ def capture():
 		output = './images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
 		output_dir = now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/'
 		camera.iso = 1600
-		camera.vflip = True
+		#camera.vflip = True
 		camera.hflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
 		camera.capture('./images/output.jpg')
