@@ -62,6 +62,6 @@ if (1):
 	pygame.init()
 	screen = pygame.display.set_mode((480,320),pygame.FULLSCREEN)
 	scheduler = BlockingScheduler()
-	scheduler.add_job(capture, 'interval', minutes=5)
+	scheduler.add_job(capture, 'interval', minutes=15)
 	capture()
 	scheduler.start()
