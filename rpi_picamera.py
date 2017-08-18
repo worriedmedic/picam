@@ -50,6 +50,7 @@ def capture():
 		output = './images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
 		output_dir = now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/'
 		camera.iso = 1600
+		camera.led = False
 		#camera.vflip = True
 		#camera.hflip = True
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -67,6 +68,6 @@ if (1):
 		pygame.init()
 		screen = pygame.display.set_mode((480,320),pygame.FULLSCREEN)
 	scheduler = BlockingScheduler()
-	scheduler.add_job(capture, 'interval', minutes=15)
+	scheduler.add_job(capture, 'cron', hour=12)
 	capture()
 	scheduler.start()
