@@ -24,12 +24,12 @@ for arg in sys.argv:
 
 def directorycheck():
 	now = datetime.datetime.now()
-	if not os.path.exists('./images/'):
-		os.makedirs('./images/')
-	if not os.path.exists('./images/' + now.strftime("%Y-%m")):
-		os.makedirs('./images/' + now.strftime("%Y-%m"))
-	if not os.path.exists('./images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d")):
-		os.makedirs('./images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d"))
+	if not os.path.exists('/home/pi/picam/images/'):
+		os.makedirs('/home/pi/picam/images/')
+	if not os.path.exists('/home/pi/picam/images/' + now.strftime("%Y-%m")):
+		os.makedirs('/home/pi/picam/images/' + now.strftime("%Y-%m"))
+	if not os.path.exists('/home/pi/picam/images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d")):
+		os.makedirs('/home/pi/picam/images/' + now.strftime("%Y-%m") + '/' + now.strftime("%d"))
 
 def image_display(n):
 	img=pygame.image.load(n) 
