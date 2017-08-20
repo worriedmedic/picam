@@ -10,12 +10,8 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 import logging
 logging.basicConfig()
 import sys
-import pygame
-from pygame.locals import *
-import subprocess
 
 verbose = False
-display_image = False
 
 for arg in sys.argv:
 	if arg == '-v':
@@ -29,11 +25,6 @@ def directorycheck():
 	if not os.path.exists('/home/pi/picam/images/' + now.strftime("%Y-%m")):
 		os.makedirs('/home/pi/picam/images/' + now.strftime("%Y-%m"))
 
-def image_display(n):
-	img=pygame.image.load(n) 
-	screen.blit(img,(0,0))
-	pygame.display.flip()
-
 def dropbox_update(output, output_dir):
 	try:
 		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "upload", "%s" %output, "/Programming/images/%s" %output_dir])
@@ -42,7 +33,7 @@ def dropbox_update(output, output_dir):
 
 def capture():
 	with picamera.PiCamera() as camera:
-		global output
+		global output, output_dir
 		now = datetime.datetime.now()
 		directorycheck()
 		output = '/home/pi/picam/images/' + now.strftime("%Y-%m") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
@@ -55,14 +46,9 @@ def capture():
 		camera.capture(output)
 		if verbose:
 			print("Image Captured: ", output)
-		if display_image:
-			image_display(output)
 		dropbox_update(output, output_dir)
 
 if (1):
-	if display_image:
-		pygame.init()
-		screen = pygame.display.set_mode((480,320),pygame.FULLSCREEN)
 	scheduler = BlockingScheduler()
 	scheduler.add_job(capture, 'cron', hour=8)
 	scheduler.add_job(capture, 'cron', hour=12)
