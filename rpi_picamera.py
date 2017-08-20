@@ -28,7 +28,7 @@ def directorycheck():
 
 def dropbox_update(output, output_dir):
 	try:
-		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "upload", "-q", "%s" %output, "/Programming/images/%s" %output_dir])
+		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "-q", "upload", "%s" %output, "/Programming/images/%s" %output_dir])
 	except Exception:
 		pass
 
