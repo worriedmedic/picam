@@ -28,11 +28,7 @@ def directorycheck():
 
 def dropbox_update(output, output_dir):
 	try:
-		if verbose:
-			print("DROPBOX FUNCTION CALLED")
 		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "upload", "%s" %output, "/Programming/images/%s" %output_dir])
-		if verbose:
-			print("DROPBOX UPLOADED")
 	except Exception:
 		pass
 
