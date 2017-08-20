@@ -46,7 +46,7 @@ def capture():
 		now = datetime.datetime.now()
 		directorycheck()
 		output = '/home/pi/picam/images/' + now.strftime("%Y-%m") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
-		output_dir = now.strftime("%Y-%m") + '/' + now.strftime("%d") + '/'
+		output_dir = now.strftime("%Y-%m") + '/'
 		camera.iso = 1600
 		camera.led = False
 		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -64,6 +64,8 @@ if (1):
 		pygame.init()
 		screen = pygame.display.set_mode((480,320),pygame.FULLSCREEN)
 	scheduler = BlockingScheduler()
+	scheduler.add_job(capture, 'cron', hour=8)
 	scheduler.add_job(capture, 'cron', hour=12)
+	scheduler.add_job(capture, 'cron', hour=18)
 	capture()
 	scheduler.start()
