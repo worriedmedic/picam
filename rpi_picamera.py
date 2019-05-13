@@ -8,11 +8,14 @@ import os.path
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 import logging
-logging.basicConfig()
 import sys
-import subprocess
+import dropbox
 
 verbose = False
+dropbox_API_key = 'E_7mJNQhAhwAAAAAAABtnjAZi0WgH7aILQ-zhmelbVTRvTYnFI33rTcgsmUUQBbJ'
+
+logging.basicConfig()
+dbx = dropbox.Dropbox(dropbox_API_key)
 
 for arg in sys.argv:
 	if arg == '-v':
@@ -21,14 +24,15 @@ for arg in sys.argv:
 
 def directorycheck():
 	now = datetime.datetime.now()
-	if not os.path.exists('/home/pi/picam/images/'):
-		os.makedirs('/home/pi/picam/images/')
-	if not os.path.exists('/home/pi/picam/images/' + now.strftime("%Y-%m")):
-		os.makedirs('/home/pi/picam/images/' + now.strftime("%Y-%m"))
+	if not os.path.exists('./images/'):
+		os.makedirs('./images/')
+	if not os.path.exists('./images/' + now.strftime("%Y-%m")):
+		os.makedirs('./images/' + now.strftime("%Y-%m"))
 
 def dropbox_update(output, output_dir):
 	try:
-		subprocess.call(["/usr/local/bin/dropbox_uploader.sh", "-q", "upload", "%s" %output, "/Programming/images/%s" %output_dir])
+		with open(output, 'rb') as f:
+			dbx.files_upload(f.read(), '/Programming/images/%s' %output_dir)
 	except Exception:
 		pass
 
@@ -37,14 +41,15 @@ def capture():
 		global output, output_dir
 		now = datetime.datetime.now()
 		directorycheck()
-		output = '/home/pi/picam/images/' + now.strftime("%Y-%m") + '/' + 'image' + now.strftime("%Y-%m-%d--%H-%M-%S") + '.jpg'
-		output_dir = now.strftime("%Y-%m") + '/'
+		output_file_name = 'image' + now.strftime("%Y-%m-%d_%H%MHRS") + '.jpg'
+		output = './images/' + now.strftime("%Y-%m") + '/' + output_file_name
+		output_dir = now.strftime("%Y-%m") + '/' + output_file_name
 		camera.iso = 1600
 		camera.led = False
-		camera.annotate_text = now.strftime("%Y-%m-%d %H:%M:%S")
-		camera.capture('/home/pi/picam/images/output.jpg')
-		camera.resolution = (480, 320)
-		camera.capture(output)
+		camera.annotate_text = now.strftime("%Y-%m-%d %H%MHRS")
+		camera.capture('./images/output.jpg')
+		camera.resolution = (1280, 720)
+		camera.capture(output, resize=(640, 360))
 		if verbose:
 			print("Image Captured: ", output)
 		dropbox_update(output, output_dir)
