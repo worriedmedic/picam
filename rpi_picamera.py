@@ -12,7 +12,6 @@ import sys
 import dropbox
 
 verbose = False
-dropbox_API_key = 'E_7mJNQhAhwAAAAAAABtnjAZi0WgH7aILQ-zhmelbVTRvTYnFI33rTcgsmUUQBbJ'
 
 logging.basicConfig()
 dbx = dropbox.Dropbox(dropbox_API_key)
